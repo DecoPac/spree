@@ -57,3 +57,12 @@ require 'spree/core/mail_settings'
 ActiveRecord::Base.class_eval do
   include CollectiveIdea::Acts::NestedSet
 end
+
+# Hack waiting on https://github.com/pluginaweek/state_machine/pull/275
+module StateMachine
+  module Integrations
+    module ActiveModel
+      public :around_validation
+    end
+  end
+end
