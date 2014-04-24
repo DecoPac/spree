@@ -24,6 +24,7 @@ module Spree
           admin/images/new.js
           jquery.jstree/themes/apple/*
           fontawesome-webfont*
+          jquery.alerts/images/*
         ]
       end
 
