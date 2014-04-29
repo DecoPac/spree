@@ -17,6 +17,9 @@ module Spree
       path: ':rails_root/public/spree/taxons/:id/:style/:basename.:extension',
       default_url: '/assets/default_taxon.png'
 
+    validates_attachment :icon,
+      content_type: { content_type: ["image/jpg", "image/jpeg", "image/png"] }
+
     include Spree::Core::S3Support
     supports_s3 :icon
 
