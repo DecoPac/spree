@@ -3,7 +3,7 @@ require 'spec_helper'
 # Tests for #3958's features
 describe "Order Line Items", js: true do
   stub_authorization!
-  
+
   before do
     # Removing the delivery step causes the order page to render a different
     # partial, called _line_items, which shows line items rather than shipments
@@ -23,8 +23,8 @@ describe "Order Line Items", js: true do
         find(".edit-line-item").click
         fill_in "quantity", :with => 10
         find(".save-line-item").click
-        page.should have_content("10", :css => ".line-item-qty-show")
-        page.should have_content("$100.00", :css => ".line-item-total")
+        page.should have_css(".line-item-qty-show", text: "10")
+        page.should have_css(".line-item-total", text: "$100.00")
       end
     end
   end

@@ -41,34 +41,13 @@ describe Spree::Promotion do
     end
   end
 
-  describe '#exists_on_order?' do
-    let(:promotion) { create :promotion } 
-    let(:order) { create :order }
-    let(:action_1) { Spree::Promotion::Actions::CreateAdjustment.new }
-    let(:action_2) { Spree::Promotion::Actions::CreateAdjustment.new }
+  describe ".coupons" do
+    it "scopes promotions with coupon code present only" do
+      promotion = Spree::Promotion.create! name: "test", code: ''
+      expect(Spree::Promotion.coupons).to be_empty
 
-    before do
-      promotion.actions << action_1
-      promotion.actions << action_2
-
-      action_1.should_receive(:credit_exists_on_order?).with(order).and_return(false)
-      action_2.should_receive(:credit_exists_on_order?).with(order).and_return(action_2_status)
-    end
-
-    context 'when one returns true' do
-      let(:action_2_status) { true }
-
-      it 'should be true' do
-        promotion.exists_on_order?(order).should be_true
-      end    
-    end
-
-    context 'when none returns true' do
-      let(:action_2_status) { false }
-
-      it 'should be false' do
-        promotion.exists_on_order?(order).should be_false
-      end 
+      promotion.update_column :code, "check"
+      expect(Spree::Promotion.coupons.first).to eq promotion
     end
   end
 
@@ -163,8 +142,9 @@ describe Spree::Promotion do
     it "does activate if newer then order" do
       @action1.should_receive(:perform).with(@payload)
       promotion.created_at = DateTime.now + 2
-      promotion.activate(@payload)
+      expect(promotion.activate(@payload)).to be true
     end
+
   end
 
   context "#usage_limit_exceeded" do
@@ -175,10 +155,10 @@ describe Spree::Promotion do
      it "should have its usage limit exceeded" do
        promotion.usage_limit = 2
        promotion.stub(:credits_count => 2)
-       promotion.usage_limit_exceeded?.should be_true
+       promotion.usage_limit_exceeded?.should be true
 
        promotion.stub(:credits_count => 3)
-       promotion.usage_limit_exceeded?.should be_true
+       promotion.usage_limit_exceeded?.should be true
      end
    end
 
@@ -329,7 +309,7 @@ describe Spree::Promotion do
     before { @order = Spree::Order.new }
 
     it "should have eligible rules if there are no rules" do
-      promotion.rules_are_eligible?(@order).should be_true
+      promotion.rules_are_eligible?(@order).should be true
     end
 
     context "with 'all' match policy" do
@@ -338,13 +318,13 @@ describe Spree::Promotion do
       it "should have eligible rules if all rules are eligible" do
         promotion.promotion_rules = [stub_model(Spree::PromotionRule, :eligible? => true),
                                      stub_model(Spree::PromotionRule, :eligible? => true)]
-        promotion.rules_are_eligible?(@order).should be_true
+        promotion.rules_are_eligible?(@order).should be true
       end
 
       it "should not have eligible rules if any of the rules is not eligible" do
         promotion.promotion_rules = [stub_model(Spree::PromotionRule, :eligible? => true),
                                      stub_model(Spree::PromotionRule, :eligible? => false)]
-        promotion.rules_are_eligible?(@order).should be_false
+        promotion.rules_are_eligible?(@order).should be false
       end
     end
 
@@ -360,7 +340,7 @@ describe Spree::Promotion do
         false_rule = Spree::PromotionRule.create(:promotion => @promotion)
         false_rule.stub(:eligible?).and_return(false)
         @promotion.rules << true_rule
-        @promotion.rules_are_eligible?(@order).should be_true
+        @promotion.rules_are_eligible?(@order).should be true
       end
     end
   end

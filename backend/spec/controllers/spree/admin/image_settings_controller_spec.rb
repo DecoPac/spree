@@ -41,7 +41,7 @@ describe Spree::Admin::ImageSettingsController do
           "s3_bucket"     => "some_bucket"
           }
         }
-        Spree::Config[:use_s3].should be_true
+        Spree::Config[:use_s3].should be true
         Spree::Config[:s3_access_key].should == "a_valid_key"
         Spree::Config[:s3_secret].should     == "a_secret"
         Spree::Config[:s3_bucket].should     == "some_bucket"

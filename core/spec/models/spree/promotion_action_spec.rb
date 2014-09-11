@@ -9,7 +9,7 @@ describe Spree::PromotionAction do
   describe '#credit_exists_on_order?' do
     let(:order) { create(:order_with_line_items, :state => "payment", :coupon_code => "tenoff") }
     let(:promo_action) { Spree::Promotion::Actions::CreateAdjustment.create(:calculator_type => "Spree::Calculator::FlatPercentItemTotal") }
-    
+
     context 'when promo is applied' do
       before do
         flat_percent_calc = Spree::Calculator::FlatPercentItemTotal.create(:preferred_flat_percent => "10")
@@ -26,13 +26,13 @@ describe Spree::PromotionAction do
       end
 
       it 'should return true' do
-        promo_action.credit_exists_on_order?(order).should be_true
-      end 
+        promo_action.credit_exists_on_order?(order).should be true
+      end
     end
 
     context 'when promo is not applied' do
       it 'should return false' do
-        promo_action.credit_exists_on_order?(order).should be_false
+        promo_action.credit_exists_on_order?(order).should be false
       end
     end
   end

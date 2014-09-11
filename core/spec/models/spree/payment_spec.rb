@@ -463,12 +463,12 @@ describe Spree::Payment do
   describe "#can_credit?" do
     it "is true if credit_allowed > 0" do
       payment.stub(:credit_allowed).and_return(100)
-      payment.can_credit?.should be_true
+      payment.can_credit?.should be true
     end
 
     it "is false if credit_allowed is 0" do
       payment.stub(:credit_allowed).and_return(0)
-      payment.can_credit?.should be_false
+      payment.can_credit?.should be false
     end
   end
 

@@ -32,7 +32,7 @@ describe "Customer Details" do
     it "associates a user when not using guest checkout" do
       click_link "Orders"
       click_link "New Order"
-      click_link "Customer Details" 
+      click_link "Customer Details"
       targetted_select2 "foobar@example.com", :from => "#s2id_customer_search"
       fill_in_address
       check "order_use_billing"

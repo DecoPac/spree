@@ -273,7 +273,7 @@ describe Spree::Shipment do
 
       it "should validate with inventory" do
         shipment.inventory_units = [create(:inventory_unit)]
-        shipment.valid?.should be_true
+        shipment.valid?.should be true
       end
     end
 
@@ -281,7 +281,7 @@ describe Spree::Shipment do
       before { Spree::Config.set track_inventory_levels: false }
 
       it "should validate with no inventory" do
-        shipment.valid?.should be_true
+        shipment.valid?.should be true
       end
     end
   end
@@ -503,4 +503,5 @@ describe Spree::Shipment do
       expect(reflection.options[:dependent]).to be(:delete_all)
     end
   end
+
 end

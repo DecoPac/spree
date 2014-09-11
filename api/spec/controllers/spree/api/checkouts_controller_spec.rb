@@ -110,7 +110,7 @@ module Spree
       end
 
       it "will return an error if the order cannot transition" do
-        pending "not sure if this test is valid"
+        skip "not sure if this test is valid"
         order.bill_address = nil
         order.save
         order.update_column(:state, "address")
@@ -153,7 +153,7 @@ module Spree
         # Find the correct shipping rate for that shipment...
         json_shipping_rate = json_shipment['shipping_rates'].detect { |sr| sr["id"] == shipping_rate.id }
         # ... And finally ensure that it's selected
-        json_shipping_rate['selected'].should be_true
+        json_shipping_rate['selected'].should be true
         # Order should automatically transfer to payment because all criteria are met
         json_response['state'].should == 'payment'
       end

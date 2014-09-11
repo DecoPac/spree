@@ -258,7 +258,7 @@ describe Spree::TaxRate do
 
     context "when order has one taxable line item" do
       context "when price includes tax" do
-        before do 
+        before do
           @rate.update_column(:included_in_price, true)
           @order.contents.add(@taxable.master, 1)
           # The above automatically creates an adjustment which needs to be cleared
@@ -271,7 +271,7 @@ describe Spree::TaxRate do
           it "should create one included line item adjustment" do
             @rate.adjust(@order)
             @order.line_item_adjustments.count.should == 1
-            @order.line_item_adjustments.first.included.should be_true
+            @order.line_item_adjustments.first.included.should be true
           end
 
           it "should not create a tax refund" do
@@ -306,7 +306,7 @@ describe Spree::TaxRate do
       end
 
       context "when price does not include tax" do
-        before do 
+        before do
           @rate.update_column(:included_in_price, false)
           @order.contents.add(@taxable.master, 1)
           # The above automatically creates an adjustment which needs to be cleared
@@ -348,7 +348,7 @@ describe Spree::TaxRate do
           it "should create multiple price adjustments" do
             @rate.adjust(@order)
             @order.line_item_adjustments.count.should == 2
-            expect(@order.line_item_adjustments.all? { |a| a.included? }).to be_true
+            expect(@order.line_item_adjustments.all? { |a| a.included? }).to be true
           end
 
           it "should not create a tax refund" do

@@ -289,7 +289,7 @@ describe Spree::Variant do
         end
 
         it 'returns true if stock_items in stock' do
-          variant.in_stock?.should be_true
+          variant.in_stock?.should be true
         end
       end
 
@@ -300,14 +300,14 @@ describe Spree::Variant do
         end
 
         it 'return false if stock_items out of stock' do
-          variant.in_stock?.should be_false
+          variant.in_stock?.should be false
         end
       end
     end
 
     describe "#can_stock?" do
       it "calls out to quantifier" do
-        Spree::Stock::Quantifier.should_receive(:new).and_return(quantifier = stub)
+        Spree::Stock::Quantifier.should_receive(:new).and_return(quantifier = double)
         quantifier.should_receive(:can_supply?).with(10)
         variant.can_stock?(10)
       end
@@ -324,7 +324,7 @@ describe Spree::Variant do
         end
 
         it 'returns true if stock_items in stock' do
-          variant.in_stock?.should be_true
+          expect(variant.in_stock?).to be true
         end
       end
     end
