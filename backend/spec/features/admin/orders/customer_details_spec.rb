@@ -22,6 +22,10 @@ describe "Customer Details" do
       config.company = true
     end
 
+    allow(Spree.user_class).to receive(:find_by).
+                                       with(hash_including(:email)).
+                                       and_return(user)
+
     visit spree.admin_path
     click_link "Orders"
     within('table#listing_orders') { click_icon(:edit) }
