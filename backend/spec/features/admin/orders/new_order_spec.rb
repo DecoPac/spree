@@ -15,6 +15,10 @@ describe "New Order" do
     visit spree.admin_path
     click_on "Orders"
     click_on "New Order"
+
+    allow(Spree.user_class).to receive(:find_by).
+                                       with(hash_including(:email)).
+                                       and_return(user)
   end
 
   it "completes new order succesfully", js: true do
